@@ -214,11 +214,9 @@ if [ $DHCP -eq 1 ]; then
     if [ $CLIENT_INTERNET_ACCESS -eq 1 ]; then
 	logger "ip addr show"
 	ip addr show
-	logger "ifconfig"
-	ifconfig
 	logger "route traffic"
         ## Route traffic
-        iptables-nft -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+        iptables-nft -t nat -A POSTROUTING -o eno1 -j MASQUERADE
         iptables-nft -P FORWARD ACCEPT
         iptables-nft -F FORWARD
     fi
@@ -228,7 +226,7 @@ else
     ## No DHCP == No DNS. Must be set manually on client.
     ## Step 1: Routing
     if [ $CLIENT_INTERNET_ACCESS -eq 1 ]; then
-        iptables-nft -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+        iptables-nft -t nat -A POSTROUTING -o eno1 -j MASQUERADE
         iptables-nft -P FORWARD ACCEPT
         iptables-nft -F FORWARD
     fi
