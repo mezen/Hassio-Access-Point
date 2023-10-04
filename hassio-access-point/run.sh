@@ -212,7 +212,11 @@ if [ $DHCP -eq 1 ]; then
     
     # Setup Client Internet Access
     if [ $CLIENT_INTERNET_ACCESS -eq 1 ]; then
-
+	logger "ip addr show"
+	ip addr show
+	logger "ifconfig"
+	ifconfig
+	logger "route traffic"
         ## Route traffic
         iptables-nft -t nat -A POSTROUTING -o eth0 -j MASQUERADE
         iptables-nft -P FORWARD ACCEPT
